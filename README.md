@@ -7,7 +7,7 @@
 <p align="center">
 <!-- Spring boot version -->
 <a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.7.4">
-    <img src="https://img.shields.io/badge/spring--boot-2.7.4-blue">
+    <img src="https://img.shields.io/badge/spring--boot-2.7.5-blue">
 </a>
 <!-- JDK version -->
 <a href="https://www.oracle.com/java/technologies/javase-downloads.html">
