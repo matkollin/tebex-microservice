@@ -36,5 +36,5 @@ jobs:
         name: Build and Publish Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ secrets.DOCKER_USERNAME }}/test
-          docker push ${{ secrets.DOCKER_USERNAME }}/test
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${{ secrets.DOCKER_USERNAME }}/tebex-microservice
+          docker push ${{ secrets.DOCKER_USERNAME }}/tebex-microservice
