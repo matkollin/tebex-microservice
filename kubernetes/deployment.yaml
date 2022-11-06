@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tebex-microservice
+  labels:
+    app: tebex-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tebex-microservice
+  template:
+    metadata:
+      labels:
+        app: tebex-microservice
+    spec:
+      containers:
+      - name: tebex-microservice
+        image: matkollin/tebex-microservice
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tebex-microservice
+  labels:
+    app: tebex-microservice
+    spring-boot: "true"
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: tebex-microservice
+  type: ClusterIP
