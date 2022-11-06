@@ -29,7 +29,6 @@
     <dependency-check-maven.version>7.2.1</dependency-check-maven.version>
     <properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
     <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
-    <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
     <sonar.organization>matkollin</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
@@ -282,18 +281,6 @@
         <configuration>
           <failOnError>false</failOnError>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>${sonar-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>sonar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
