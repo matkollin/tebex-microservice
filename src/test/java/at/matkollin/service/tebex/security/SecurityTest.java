@@ -33,7 +33,7 @@ public class SecurityTest {
             .type("test")
             .build();
 
-    this.mockMvc.perform(post("/v1/tebex/webhook")
+    this.mockMvc.perform(post("/api/v1/tebex/webhook")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(validationDTO))
                     .accept(MediaType.APPLICATION_JSON))
@@ -50,7 +50,7 @@ public class SecurityTest {
             .type("test")
             .build();
 
-    this.mockMvc.perform(post("/v1/tebex/webhook")
+    this.mockMvc.perform(post("/api/v1/tebex/webhook")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(validationDTO))
                     .with(request->{request.setRemoteAddr("18.209.80.3"); return request;})
