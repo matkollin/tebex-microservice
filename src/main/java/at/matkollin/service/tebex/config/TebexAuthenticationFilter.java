@@ -26,7 +26,7 @@ public class TebexAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     // Check if the requested path is a webhook path
-    if (!request.getRequestURI().equals("/tebex/webhook")) {
+    if (!request.getRequestURI().equals("/v1/tebex/webhook")) {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
       return;
     }
