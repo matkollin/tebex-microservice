@@ -3,6 +3,8 @@ package at.matkollin.service.tebex.service;
 import at.matkollin.service.tebex.TebexServerApplication;
 import at.matkollin.service.tebex.dto.validation.ValidationDTO;
 import at.matkollin.service.tebex.dto.validation.ValidationResponseDTO;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,13 +16,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
+@Slf4j
+@Setter
 @Service
 public class ValidationService {
 
   @Value("${TEBEX_WEBHOOK_SECRET:secret}")
   private String tebexWebhookSecret;
   // Authorized ip addresses provided by tebex
-  @Value("${TEBEX_WEBHOOK_AUTHORIZED_IP_ADDRESSES:18.209.80.3,54.87.231.232}")
+  @Value("${TEBEX_WEBHOOK_AUTHORIZED_IP_ADDRESSES:18.209.80.3}")
   private String[] authorizedIpAddresses;
 
   /**
@@ -46,6 +50,10 @@ public class ValidationService {
    * @return a {@link ValidationDTO} if the body is a validation request and the type is "validation.webhook". Otherwise an empty {@link Optional}.
    */
   public Optional<ValidationDTO> getValidationDTO(String body) {
+    if (body == null || body.isEmpty()) {
+      return Optional.empty();
+    }
+
     if (!body.contains("id") && !body.contains("type") && !body.contains("date")) {
       return Optional.empty();
     }
@@ -89,28 +97,34 @@ public class ValidationService {
       return false;
     }
 
-    String sha256 = DigestUtils.sha256Hex(body);
-    try {
-      String sha256Hmac = this.encode(this.tebexWebhookSecret, sha256);
-      return signature.equals(sha256Hmac);
-    } catch (Exception exception) {
+    if (body == null || body.isEmpty()) {
       return false;
     }
+
+    return signature.equals(this.encodeMessage(this.tebexWebhookSecret, body));
   }
 
   /**
    * Encode the given message with the given secret.
+   * Algorithm:
+   * $json = file_get_contents('php://input');
+   * $secret = "0d45982a10e3a072d0c1261c55dd9918";
+   * $signature = hash_hmac('sha256', hash('sha256', $json), $secret);
    *
    * @param secret the secret to use.
    * @param message the message to encode.
-   * @return the encoded message.
+   * @return the encoded message or a blank string if an error occurred.
    */
-  private String encode(String secret, String message) throws Exception {
-    Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-    SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-    sha256_HMAC.init(secret_key);
-
-    return Hex.encodeHexString(sha256_HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8)));
+  public String encodeMessage(String secret, String message) {
+    try{
+      String sha256 = DigestUtils.sha256Hex(message);
+      Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+      SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+      sha256_HMAC.init(secret_key);
+      return Hex.encodeHexString(sha256_HMAC.doFinal(sha256.getBytes(StandardCharsets.UTF_8)));
+    } catch (Exception exception) {
+      return "";
+    }
   }
 
 }
