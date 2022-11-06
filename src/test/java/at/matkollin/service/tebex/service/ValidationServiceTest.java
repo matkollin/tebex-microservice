@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = WebhookController.class)
 public class ValidationServiceTest {
@@ -19,8 +21,28 @@ public class ValidationServiceTest {
   private ValidationService validationService;
 
   @Test
-  @DisplayName("Test webhook authentication with address and secret")
-  public void asd2() {
+  @DisplayName("Test wrong authentication address")
+  public void testAuthenticatedAddresses() {
+    String address = "127.0.0.1";
+    Assertions.assertFalse(this.validationService.isIpAddressAuthorized(address));
+
+    address = "18.209.80.3";
+    Assertions.assertTrue(this.validationService.isIpAddressAuthorized(address));
+  }
+
+  @Test
+  @DisplayName("Test validation response")
+  public void testJsonDeserialization() {
+    Optional<ValidationDTO> validationDTO = this.validationService.getValidationDTO("{id: 1, type: \"validation.webhook\", date: 123456789}");
+    Assertions.assertTrue(validationDTO.isPresent());
+
+    validationDTO = this.validationService.getValidationDTO("{ids: 1, types: \"validation.webhook\", date: 123456789}");
+    Assertions.assertFalse(validationDTO.isPresent());
+  }
+
+  @Test
+  @DisplayName("Test the validation of a webhook")
+  public void testValidationDtoGeneration() {
     ValidationDTO validationDTO = ValidationDTO.builder()
             .date("2020-01-01")
             .id("123")
