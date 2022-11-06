@@ -7,7 +7,7 @@
 <p align="center">
 <!-- Spring boot version -->
 <a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.7.4">
-    <img src="https://img.shields.io/badge/spring--boot-2.7.4-blue">
+    <img src="https://img.shields.io/badge/spring--boot-2.7.5-blue">
 </a>
 <!-- JDK version -->
 <a href="https://www.oracle.com/java/technologies/javase-downloads.html">
@@ -24,7 +24,7 @@
 </p>
 
 ## Introduction
-A simple [Maven](https://maven.apache.org/) based microservice using [Spring Boot](https://spring.io/projects/spring-boot) handling [Tebex](https://www.tebex.io/) interactions.
+A simple demo [Maven](https://maven.apache.org/) based microservice using [Spring Boot](https://spring.io/projects/spring-boot) handling [Tebex](https://www.tebex.io/) interactions.
 
 > For breaking changes/updates look at the official [Tebex Documentation](https://docs.tebex.io/plugin/)
 
@@ -65,10 +65,8 @@ The configuration is done via environment variables. The following variables are
 | Variable                               | Description                                      | Default |
 |----------------------------------------|--------------------------------------------------| --- |
 | `TEBEX_WEBHOOK_SECRET`                 | The secret used to verify the webhook signature. | `secret` |
-| `TEBEX_WEBHOOK_AUTHORIZED_IP_ADRESSES` | Authorized IP addresses to receive requests from.  | `18.209.80.3;54.87.231.232` |
-| `TEBEX_WEBHOOK_URL`                    | The URL to the webhook endpoint.                 | `http://localhost:8080/webhook` |
+| `TEBEX_WEBHOOK_AUTHORIZED_IP_ADDRESSES` | Authorized IP addresses to receive requests from.  | `18.209.80.3;54.87.231.232` |
 | `TEBEX_WEBHOOK_PORT`                   | The port the webhook endpoint is listening on.   | `8080` |
-| `TEBEX_WEBHOOK_PATH`                   | The path the webhook endpoint is listening on.   | `/webhook` |
 | `TEBEX_WEBHOOK_LOGGING_LEVEL`          | The log level for the webhook endpoint.          | `INFO` |
 
 ## License
