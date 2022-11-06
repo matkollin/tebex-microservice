@@ -24,7 +24,7 @@
 </p>
 
 ## Introduction
-A simple [Maven](https://maven.apache.org/) based microservice using [Spring Boot](https://spring.io/projects/spring-boot) handling [Tebex](https://www.tebex.io/) interactions.
+A simple demo [Maven](https://maven.apache.org/) based microservice using [Spring Boot](https://spring.io/projects/spring-boot) handling [Tebex](https://www.tebex.io/) interactions.
 
 > For breaking changes/updates look at the official [Tebex Documentation](https://docs.tebex.io/plugin/)
 
