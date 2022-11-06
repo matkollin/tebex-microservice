@@ -39,12 +39,13 @@ public class ValidationService {
   }
 
   /**
-   * Check if the given body  represents a {@link ValidationDTO} and if the {@link ValidationDTO#getType()} is "validation.webhook".
+   * Get a new {@link ValidationResponseDTO} instance parsed from the provided body whenever the provided body is a validation request and
+   * the {@link ValidationDTO#getType()} equals to "validation.webhook".
    *
    * @param body the body of a request.
-   * @return true if the body is a validation request and the type is "validation.webhook".
+   * @return a {@link ValidationDTO} if the body is a validation request and the type is "validation.webhook". Otherwise an empty {@link Optional}.
    */
-  public Optional<ValidationDTO> isBodyValidationRequest(String body) {
+  public Optional<ValidationDTO> getValidationDTO(String body) {
     if (!body.contains("id") && !body.contains("type") && !body.contains("date")) {
       return Optional.empty();
     }
