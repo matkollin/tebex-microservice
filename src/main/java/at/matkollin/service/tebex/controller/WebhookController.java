@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/v1/tebex")
+@RequestMapping("/api/v1/tebex")
 @RestController
 public class WebhookController {
 
   @PostMapping("/webhook")
   public ResponseEntity<HttpStatus> webhook(@RequestBody PaymentDTO paymentDTO) {
-    log.info("Received webhook: {}", paymentDTO);
+    log.debug("Received webhook: {}", paymentDTO);
     return ResponseEntity.ok().build();
   }
 
