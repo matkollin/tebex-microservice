@@ -24,7 +24,6 @@ public class SecurityConfig {
             .anyRequest().authenticated()
             .and()
             .csrf().disable()
-            .httpBasic().disable()
             .addFilterBefore(new TebexAuthenticationFilter(this.validationService), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
