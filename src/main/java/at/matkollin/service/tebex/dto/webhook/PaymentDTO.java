@@ -24,10 +24,39 @@ public class PaymentDTO {
   private Customer customer;
   private Product[] products;
   private Coupon[] coupons;
-  // TODO: Gift Cards
+
+  @Nullable
+  @JsonProperty("gift_cards")
+  private GiftCard[] giftCards;
+
+
   @Nullable
   @JsonProperty("recurring_payment_reference")
   private RecurringPayment recurringPaymentSubject;
+
+  @Data
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class GiftCard {
+
+    private int id;
+    private String code;
+    private Balance balance;
+    private String note;
+    @JsonProperty("void")
+    private boolean _void;
+
+    public static class Balance {
+
+      private double starting;
+      private double remaining;
+      private String currency;
+
+    }
+
+
+  }
 
   @Data
   @Builder
@@ -167,6 +196,7 @@ public class PaymentDTO {
     @JsonProperty("next_payment_at")
     private String nextPaymentAt;
     private Status status;
+
     // TODO: initial_payment
     // TODO: last_payment
     private Price price;
