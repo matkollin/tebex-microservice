@@ -1,6 +1,7 @@
 package at.matkollin.service.tebex.config.cache;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -17,15 +18,10 @@ public class CachedBodyServletInputStream extends ServletInputStream {
     this.cachedBodyInputStream = new ByteArrayInputStream(cachedBody);
   }
 
+  @SneakyThrows
   @Override
   public boolean isFinished() {
-    try {
-      return this.cachedBodyInputStream.available() == 0;
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return false;
+    return this.cachedBodyInputStream.available() == 0;
   }
 
   @Override
