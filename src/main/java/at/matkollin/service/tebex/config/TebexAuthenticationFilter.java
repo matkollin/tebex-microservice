@@ -1,6 +1,7 @@
 package at.matkollin.service.tebex.config;
 
 import at.matkollin.service.tebex.TebexServerApplication;
+import at.matkollin.service.tebex.config.cache.CachedBodyHttpServletRequest;
 import at.matkollin.service.tebex.dto.validation.ValidationDTO;
 import at.matkollin.service.tebex.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class TebexAuthenticationFilter extends OncePerRequestFilter {
@@ -28,7 +28,7 @@ public class TebexAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     // Check if the requested path is a webhook path
-    if (!request.getRequestURI().equals("/v1/tebex/webhook")) {
+    if (!request.getRequestURI().equals("/api/v1/tebex/webhook")) {
       log.debug("Received request for path: {}", request.getRequestURI());
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
       return;
@@ -41,12 +41,15 @@ public class TebexAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+    /* wrap the request in order to read the inputstream multiple times */
+    CachedBodyHttpServletRequest cachedBodyHttpServletRequest = new CachedBodyHttpServletRequest(request);
+    String body = new String(cachedBodyHttpServletRequest.getCachedBody());
     String signature = request.getHeader("X-Signature");
     // Check if the received request signature is valid
     if (signature == null || signature.isBlank() || !this.validationService.isSignatureValid(signature, body)) {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-      log.debug("Received request with invalid signature: {}", signature);
+      log.debug("Current signature: {}", signature);
+      log.debug("Expected signature: {}", this.validationService.encodeMessage(this.validationService.getTebexWebhookSecret(), body));
       return;
     }
 
@@ -62,7 +65,7 @@ public class TebexAuthenticationFilter extends OncePerRequestFilter {
     }
 
     log.debug("Received webhook request");
-    filterChain.doFilter(request, response);
+    filterChain.doFilter(cachedBodyHttpServletRequest, response);
   }
 
 }
