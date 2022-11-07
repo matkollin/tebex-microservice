@@ -26,8 +26,7 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.addFilterBefore(new TebexAuthenticationFilter(this.validationService), BasicAuthenticationFilter.class)
-            .csrf().disable();
+    http.addFilterBefore(new TebexAuthenticationFilter(this.validationService), BasicAuthenticationFilter.class);
     return http.build();
   }
 
