@@ -73,7 +73,11 @@ public class ValidationServiceTest {
     signature = this.validationService.encodeMessage("secret", body);
     Assertions.assertNotNull(signature);
     Assertions.assertTrue(this.validationService.isSignatureValid(signature, body));
+  }
 
+  @Test
+  public void testInvalidSecret() {
+    Assertions.assertEquals(this.validationService.encodeMessage(null, "test"), "");
   }
 
 }

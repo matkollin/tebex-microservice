@@ -8,12 +8,6 @@ spring:
   jmx:
     enabled: false
 
-  # Security
-  security:
-    user:
-      name: ${TEBEX_WEBHOOK_USERNAME:tebex}
-      password: ${TEBEX_WEBHOOK_PASSWORD:tebex}
-
 # Actuator
 management:
     endpoints:

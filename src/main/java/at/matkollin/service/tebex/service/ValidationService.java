@@ -3,7 +3,7 @@ package at.matkollin.service.tebex.service;
 import at.matkollin.service.tebex.TebexServerApplication;
 import at.matkollin.service.tebex.dto.validation.ValidationDTO;
 import at.matkollin.service.tebex.dto.validation.ValidationResponseDTO;
-import lombok.Setter;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Slf4j
-@Setter
+@Data
 @Service
 public class ValidationService {
 
